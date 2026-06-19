@@ -14,9 +14,10 @@ export class IssueRepository {
     });
   }
 
-  async findOpenIssues() {
+  async findOpenIssues(hotelId: string) {
     return prisma.issue.findMany({
       where: {
+        hotelId,
         status: "OPEN",
       },
 
@@ -36,9 +37,10 @@ export class IssueRepository {
     });
   }
 
-  async findResolvedIssues() {
+  async findResolvedIssues(hotelId: string) {
     return prisma.issue.findMany({
       where: {
+        hotelId,
         status: "RESOLVED",
       },
 
