@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model RawEvent {
+  id          String   @id
+
+  hotelId     String
+
+  sourceType  String
+
+  eventType   String?
+
+  room        String?
+
+  guest       String?
+
+  description String
+
+  status      String?
+
+  eventTime   DateTime
+
+  payload     Json?
+
+  createdAt   DateTime @default(now())
+
+  evidences   IssueEvidence[]
+}
+
+model Issue {
+  id          String   @id @default(uuid())
+
+  hotelId     String
+
+  category    String
+
+  room        String?
+
+  guest       String?
+
+  status      String
+
+  summary     String
+
+  openedAt    DateTime
+
+  resolvedAt  DateTime?
+
+  createdAt   DateTime @default(now())
+
+  evidences   IssueEvidence[]
+}
+
+model IssueEvidence {
+  id          String   @id @default(uuid())
+
+  issueId     String
+
+  rawEventId  String
+
+  issue       Issue @relation(fields: [issueId], references: [id])
+
+  rawEvent    RawEvent @relation(fields: [rawEventId], references: [id])
+}
+
+model Handover {
+  id          String   @id @default(uuid())
+
+  hotelId     String
+
+  shiftDate   DateTime
+
+  payload     Json
+
+  createdAt   DateTime @default(now())
+}
