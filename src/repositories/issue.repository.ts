@@ -23,6 +23,10 @@ export class IssueRepository {
       include: {
         evidences: true,
       },
+
+      orderBy: {
+        openedAt: "asc",
+      },
     });
   }
 

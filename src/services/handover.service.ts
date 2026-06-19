@@ -1,6 +1,12 @@
 import { issueRepository }
   from '../repositories/issue.repository';
 
+import { getPriority }
+  from './priority.service';
+
+import { buildIssueTitle }
+  from './handover-summary.service';
+
 export class HandoverService {
   async generate(
     hotelId: string
@@ -18,46 +24,40 @@ export class HandoverService {
         new Date().toISOString(),
 
       actionRequired:
-        openIssues.map(
-          (issue) => ({
-            id: issue.id,
+        openIssues.map((issue) => ({
+          priority:
+            getPriority(issue),
 
-            category:
-              issue.category,
+          title:
+            buildIssueTitle(issue),
 
-            room: issue.room,
+          room:
+            issue.room,
 
-            summary:
-              issue.summary,
+          summary:
+            issue.summary,
 
-            sources:
-              issue.evidences.map(
-                (e) =>
-                  e.rawEventId
-              )
-          })
-        ),
+          sources:
+            issue.evidences.map(
+              (e) => e.rawEventId
+            )
+        })),
 
       newlyResolved:
-        resolvedIssues.map(
-          (issue) => ({
-            id: issue.id,
+        resolvedIssues.map((issue) => ({
+          title:
+            buildIssueTitle(issue),
 
-            category:
-              issue.category,
+          summary:
+            issue.summary,
 
-            room: issue.room,
+          sources:
+            issue.evidences.map(
+              (e) => e.rawEventId
+            )
+        })),
 
-            summary:
-              issue.summary,
-
-            sources:
-              issue.evidences.map(
-                (e) =>
-                  e.rawEventId
-              )
-          })
-        ),
+      fyi: [],
 
       warnings: []
     };
