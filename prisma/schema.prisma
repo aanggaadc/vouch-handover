@@ -37,6 +37,8 @@ model RawEvent {
 model Issue {
   id          String   @id @default(uuid())
 
+  key         String   @unique
+
   hotelId     String
 
   category    String

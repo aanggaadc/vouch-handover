@@ -1,3 +1,5 @@
+import { prisma } from "../db/prisma";
+
 import { rawEventRepository } from "../repositories/raw-event.repository";
 
 import { issueRepository } from "../repositories/issue.repository";
@@ -5,9 +7,14 @@ import { issueRepository } from "../repositories/issue.repository";
 import { getIssueCategory } from "./category.service";
 
 import { issueEvidenceRepository } from "../repositories/issue-evidence.repository";
+import { buildIssueKey } from "./issue-key.service";
 
 export class ReconciliationService {
   async run() {
+    await prisma.issueEvidence.deleteMany();
+
+    await prisma.issue.deleteMany();
+
     const events = await rawEventRepository.findAll();
 
     for (const event of events) {
@@ -17,15 +24,15 @@ export class ReconciliationService {
         continue;
       }
 
-      const existing = await issueRepository.findOpenIssue(
-        event.hotelId,
-        category,
-        event.room,
-      );
+      const key = buildIssueKey(event);
+
+      const existing = await issueRepository.findByKey(key);
 
       if (!existing) {
         const issue = await issueRepository.create({
           hotelId: event.hotelId,
+
+          key,
 
           category,
 
@@ -49,10 +56,13 @@ export class ReconciliationService {
 
       await issueEvidenceRepository.create(existing.id, event.id);
 
+      await issueRepository.update(existing.id, {
+        summary: event.description,
+      });
+
       if (event.status === "resolved") {
         await issueRepository.update(existing.id, {
           status: "RESOLVED",
-
           resolvedAt: event.eventTime,
         });
       }

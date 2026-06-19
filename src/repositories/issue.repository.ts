@@ -30,6 +30,12 @@ export class IssueRepository {
     });
   }
 
+  async findByKey(key: string) {
+    return prisma.issue.findUnique({
+      where: { key },
+    });
+  }
+
   async findResolvedIssues() {
     return prisma.issue.findMany({
       where: {
