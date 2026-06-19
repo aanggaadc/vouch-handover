@@ -1,11 +1,15 @@
 import { Router } from 'express';
 
+import {
+  handoverController
+} from '../controllers/handover.controller';
+
 const router = Router();
 
-router.post('/', async (_req, res) => {
-  return res.json({
-    message: 'handover endpoint'
-  });
-});
+router.post(
+  '/',
+  handoverController.generate
+);
 
-export const handoverRouter = router;
+export const handoverRouter =
+  router;
