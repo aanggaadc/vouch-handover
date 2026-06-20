@@ -49,6 +49,7 @@ Create a `.env` file:
 DATABASE_URL=postgresql://...
 DIRECT_URL=postgresql://...
 PORT=3000
+GEMINI_API_KEY=your-api-key
 ```
 
 ### Run Database Migrations
