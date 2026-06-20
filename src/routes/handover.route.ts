@@ -11,5 +11,10 @@ router.post(
   handoverController.generate
 );
 
+router.post(
+  "/manager",
+  handoverController.generateManagerHandover
+);
+
 export const handoverRouter =
   router;
