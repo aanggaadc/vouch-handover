@@ -262,6 +262,7 @@ Given additional time I would:
 5. Add Slack and email delivery channels.
 6. Add manager-facing operational dashboards.
 7. Improve prioritization using historical resolution patterns.
+8. I would strengthen type safety across the codebase by introducing stricter TypeScript types and reducing the use of generic typings.
 
 ---
 
