@@ -81,7 +81,7 @@ Generate a morning handover for a hotel.
 #### Endpoint
 
 ```http
-POST /api/handover/generate
+POST /api/handover
 ```
 
 #### Request Body
@@ -114,7 +114,7 @@ POST /api/handover/generate
 ### Local Environment
 
 ```bash
-curl -X POST http://localhost:3000/api/handover/generate \
+curl -X POST http://localhost:3000/api/handover \
   -H "Content-Type: application/json" \
   -d '{
     "hotelId": "lumen-sg"
@@ -126,7 +126,7 @@ curl -X POST http://localhost:3000/api/handover/generate \
 Replace `https://vouch-handover-phi.vercel.app/` with the deployed service URL.
 
 ```bash
-curl -X POST <https://vouch-handover-phi.vercel.app/api/handover/generate \
+curl -X POST https://vouch-handover-phi.vercel.app/api/handover \
   -H "Content-Type: application/json" \
   -d '{
     "hotelId": "lumen-sg"
