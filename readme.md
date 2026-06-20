@@ -49,7 +49,6 @@ Create a `.env` file:
 DATABASE_URL=postgresql://...
 DIRECT_URL=postgresql://...
 PORT=3000
-GEMINI_API_KEY=your-api-key
 ```
 
 ### Run Database Migrations
@@ -81,7 +80,7 @@ Generate a morning handover for a hotel.
 #### Endpoint
 
 ```http
-POST /api/handover
+POST /api/handover/generate
 ```
 
 #### Request Body
@@ -114,23 +113,67 @@ POST /api/handover
 ### Local Environment
 
 ```bash
-curl -X POST http://localhost:3000/api/handover \
+curl -X POST http://localhost:3000/api/handover/generate \
   -H "Content-Type: application/json" \
   -d '{
     "hotelId": "lumen-sg"
   }'
 ```
 
-### Deployed Environment
+## Deployed Environment
 
-Replace `https://vouch-handover-phi.vercel.app/` with the deployed service URL.
+The service exposes two output formats:
+
+### 1. JSON Handover (System / Integration Friendly)
+
+Returns the structured handover payload, including action items, resolved issues, warnings, evidence references, and metadata.
 
 ```bash
-curl -X POST https://vouch-handover-phi.vercel.app/api/handover \
+curl -X POST https://vouch-handover-phi.vercel.app/api/handover/generate \
   -H "Content-Type: application/json" \
   -d '{
     "hotelId": "lumen-sg"
   }'
+```
+
+Use this endpoint when integrating with other systems, dashboards, or automated workflows.
+
+---
+
+### 2. Manager Handover (Human Friendly)
+
+Returns a plain-text morning handover optimized for hotel managers and front-desk staff. The report is organized by priority and designed to be reviewed in under a minute.
+
+```bash
+curl -X POST https://vouch-handover-phi.vercel.app/api/handover/generate/manager \
+  -H "Content-Type: application/json" \
+  -d '{
+    "hotelId": "lumen-sg"
+  }'
+```
+
+Example output:
+
+```text
+MORNING HANDOVER
+Hotel: lumen-sg
+
+🔥 HIGH PRIORITY (4)
+
+1. Room 112 remains OUT OF ORDER
+2. Immigration reporting backlog requires action
+3. Missing deposit issue for room 309
+4. Damage charge requires manager review
+
+⚠ WARNINGS (2)
+
+1. Immigration reporting deadline risk
+2. Damage charge lacks supporting evidence
+
+✅ RESOLVED OVERNIGHT (4)
+
+• Noise complaint resolved
+• Corridor leak resolved
 ```
 
 ---
