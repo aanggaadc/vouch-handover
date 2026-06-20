@@ -9,15 +9,18 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "seed:events": "ts-node src/scripts/import-events.ts",
-    "reconcile": "ts-node src/scripts/reconcile.ts"  
+    "import:night-logs": "ts-node src/scripts/import-night-logs.ts",
+    "reconcile": "ts-node src/scripts/reconcile.ts"
   },
   "dependencies": {
+    "@google/genai": "^2.9.0",
     "@prisma/client": "^6.10.1",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "pino": "^9.7.0",
-    "pino-http": "^10.5.0"
+    "pino-http": "^10.5.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",

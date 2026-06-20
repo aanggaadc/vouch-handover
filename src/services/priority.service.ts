@@ -1,6 +1,6 @@
 import { Issue } from '@prisma/client';
 import { Priority }
-  from '../types/priority';
+  from '../types';
 
 export function getPriority(
   issue: Issue

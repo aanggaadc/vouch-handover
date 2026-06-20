@@ -7,5 +7,5 @@ export const env = {
 
   databaseUrl: process.env.DATABASE_URL || '',
 
-  openAiApiKey: process.env.OPENAI_API_KEY || ''
+  geminiApiKey: process.env.GEMINI_API_KEY|| ''
 };
