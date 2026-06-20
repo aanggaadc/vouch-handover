@@ -6,8 +6,6 @@ import { logger } from "../utils/logger";
 import { rawEventRepository } from "../repositories/raw-event.repository";
 import { nightLogParserService } from "../services/ai/night-log-parser.service";
 
-import "dotenv/config";
-
 async function run() {
   try {
     logger.info({
